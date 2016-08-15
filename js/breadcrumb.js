@@ -24,7 +24,7 @@ $.extend($.fn, {
             });
         };
 
-        this.settings = {
+        var defaults = {
             data: [],
             onBeforeInsert: function(k, val, data) { // key, obj, settings.data
                 var $li = $('<li/>');
@@ -45,17 +45,30 @@ $.extend($.fn, {
             onAfterRemoveLink: function() {},
         };      
         
-        if(typeof fn === 'object') { $.extend(this.settings, fn); }
-        render.call(this, this.settings);
-        var context = this;
         var methods = {
             push: function(obj) {
-                context.settings.data.push(obj);
-                render.call(context, context.settings);
-                return methods;
+                var settings = this.data('settings');
+                settings.data.push(obj);
+                render.call(this, settings);
+                return this;
+            },
+            showSettings: function() {
+                console.log(this.data('settings'));
+                
             }
         };
-        return methods;
+
+        if(methods.hasOwnProperty(fn)) {
+            methods[fn].call(this, data);
+            return this;
+        }
+        
+        var settings = this.data('settings') || $.extend({}, defaults, fn);
+        this.data('settings', settings); // store the arbitrary data to the element.
+        
+        render.call(this, settings);
+        
+        return this;
 
     }
 });
