@@ -15,7 +15,7 @@ This is a plugin for bootstrap's breadcrumb component. [Bootstrap breadcrumb](ht
     // event listener for the push event.
     $('#push').on('click', function(e) {
         e.preventDefault();
-        bg.push({id: 'new-' + counter, value: 'Link ' + counter});
+        bg.breadcrumb('push',{id: 'new-' + counter, value: 'Link ' + counter}); // as of 08/15/2015 changed implementation sorry :)
         counter ++;
     });
     
